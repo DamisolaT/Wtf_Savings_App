@@ -10,7 +10,7 @@ class ExploreInvestmentsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Explore Investments"),
         centerTitle: true,
-       / automaticallyImplyLeading: false,
+       // automaticallyImplyLeading: false,
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
