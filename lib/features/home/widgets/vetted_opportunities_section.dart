@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:wtf_savings_app/features/invest/pages/explore_investmentsPage.dart';
 
 class VettedOpportunitiesSection  extends StatelessWidget {
   const VettedOpportunitiesSection({super.key});
@@ -21,7 +22,15 @@ class VettedOpportunitiesSection  extends StatelessWidget {
               color: Colors.black38
             ),
             ),
-            TextButton(onPressed: (){},
+            TextButton(onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context){
+                return ExploreInvestmentsPage();
+              }
+              ),
+              );
+            },
                 child: Row(
                  children: [
                 Text("find more"),

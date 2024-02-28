@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import 'hide_todo_sheet.dart';
 import 'my_todo_item.dart';
 
 class MyTodoSection extends StatelessWidget {
@@ -20,14 +21,24 @@ class MyTodoSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("My To-do",
+              Text(
+                "My To-do",
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.black38
                 ),
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        showDragHandle: true,
+                        builder: (context){
+                         return HideTodoSheet();
+
+                        }
+                        );
+                  },
                   child:
                   Row(
                     children: [
