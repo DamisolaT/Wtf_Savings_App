@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SavingDetailsCard extends StatelessWidget {
@@ -7,14 +6,17 @@ class SavingDetailsCard extends StatelessWidget {
 
     required this.topRightWidget,
     required this.balance,
+    this.onClick,
   });
-
-
   final Widget topRightWidget;
   final String balance;
+  final Function()? onClick;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onClick,
+      child: Container(
       decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(16.0)
@@ -24,7 +26,7 @@ class SavingDetailsCard extends StatelessWidget {
       child: Stack(
         children: [
           ElevatedButton.icon(
-              onPressed: (){},
+              onPressed: onClick,
               icon: Icon(Icons.add),
               label: Text("Quick save"),
               style: ElevatedButton.styleFrom(
@@ -33,8 +35,10 @@ class SavingDetailsCard extends StatelessWidget {
                     horizontal: 8,
                   ),
                   backgroundColor: Colors.yellow.shade800,
-                  foregroundColor: Colors.white
-              )
+                  foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.yellow.shade800,
+                disabledForegroundColor: Colors.black
+              ),
           ),
           Positioned(
             top: 0,
@@ -67,6 +71,7 @@ class SavingDetailsCard extends StatelessWidget {
     )
     ],
       ),
+      )
     );
    }
   }
