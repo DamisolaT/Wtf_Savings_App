@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wtf_savings_app/features/home/widgets/saving_details_card.dart';
+import 'package:wtf_savings_app/features/savings/widgets/saving_details_card.dart';
 import 'package:wtf_savings_app/features/savings/pages/quick_save_page.dart';
 import 'package:wtf_savings_app/features/savings/widgets/flexible_savings_section.dart';
 import 'package:wtf_savings_app/features/savings/widgets/strict_savings_section.dart';
+import 'package:wtf_savings_app/utils.dart';
 
 class SavingsView extends StatelessWidget {
   const SavingsView({super.key});
@@ -24,7 +25,7 @@ class SavingsView extends StatelessWidget {
         padding: EdgeInsets.all(16),
         children: [
           SavingDetailsCard(
-            balance: "\$2400",
+            balance: "${getNaira()}2400",
             topRightWidget: Chip(
               label: Text(
                 "up to 13% returns",

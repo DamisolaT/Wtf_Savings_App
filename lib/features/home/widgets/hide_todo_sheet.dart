@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wtf_savings_app/features/home/bloc/home_bloc.dart';
 
 class HideTodoSheet extends StatelessWidget {
   const HideTodoSheet({
@@ -45,6 +47,7 @@ class HideTodoSheet extends StatelessWidget {
                               onPressed: (){
                                 //Navigator.pop(context);
                                 Navigator.pop(context);
+                                context.read<HomeBloc>().hideTodo();
                               },
                               child: Text("Yes, remove it")
                           ),

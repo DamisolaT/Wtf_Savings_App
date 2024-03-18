@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wtf_savings_app/utils.dart';
+
 
 class SavingDetailsCard extends StatelessWidget {
   const SavingDetailsCard({
@@ -11,6 +14,8 @@ class SavingDetailsCard extends StatelessWidget {
   final Widget topRightWidget;
   final String balance;
   final Function()? onClick;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,7 @@ class SavingDetailsCard extends StatelessWidget {
                         color: Colors.grey.shade200
                       ),),
                       Text(
-                         balance,
+                         "${getNaira()}$balance",
                          style: TextStyle(
                            fontWeight: FontWeight.w900,
                            fontSize: 20,

@@ -6,7 +6,7 @@ import 'package:wtf_savings_app/features/home/widgets/vetted_opportunities_secti
 import 'package:wtf_savings_app/features/invest/widgets/invest_details_card.dart';
 
 
-import '../widgets/saving_details_card.dart';
+import '../../savings/widgets/saving_details_card.dart';
 import '../widgets/suggestions_section.dart';
 import '../widgets/user_balance_card.dart';
 
@@ -52,7 +52,6 @@ class HomeView extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           UserBalanceDetails(),
-
           MyTodoSection(),
           TopSavingsSection(),
           SuggestionsSection(),

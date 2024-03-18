@@ -1,6 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wtf_savings_app/features/home/bloc/home_bloc.dart';
+import 'package:wtf_savings_app/features/home/bloc/home_state.dart';
 
 import 'hide_todo_sheet.dart';
 import 'my_todo_item.dart';
@@ -12,7 +15,9 @@ class MyTodoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    HomeBloc homeBloc = context.watch<HomeBloc>();
+    HomeState homeState = homeBloc.state;
+    return homeState.hideTodo==true? Container(): Container(
       padding: EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
