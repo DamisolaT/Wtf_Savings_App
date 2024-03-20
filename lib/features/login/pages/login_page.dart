@@ -1,27 +1,66 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wtf_savings_app/features/home/pages/home_page.dart';
+import 'package:wtf_savings_app/features/login/bloc/logic_bloc.dart';
+import 'package:wtf_savings_app/features/login/bloc/login_state.dart';
 import 'package:wtf_savings_app/features/signup/pages/registration_page.dart';
 import 'package:wtf_savings_app/shared/widgets/custom_textfield.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+   static route()=> MaterialPageRoute(builder: (context){
+       return LoginPage();
+     });
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    var bloc = context.watch<LoginBloc>();
+    var state = bloc.state;
+
+    switch(state.loginStatus){
+
+      case LoginStatus.Initial:
+        break;
+      case LoginStatus.Processing:
+       break;
+      case LoginStatus.Successful:
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Navigator.pushReplacement(
+          context,
+          HomePage.route(),
+        );
+        bloc.reset();
+      });
+      break;
+      case LoginStatus.Error:
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content:Text("An error occured"))
+          );
+        });
+        break;
+    }
     return Scaffold(
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.all(16),
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                  onPressed: (){},
-                  icon:Icon(Icons.cancel_outlined,
-                    size: 45,)
-              ),
-            ),
-            SizedBox(height: 40,),
+            //Align(
+            //  alignment: Alignment.topLeft,
+             // child: IconButton(
+                 // onPressed: (){},
+          //        icon:Icon(Icons.cancel_outlined,
+                  //  size: 45,)
+             // ),
+           // ),
+            SizedBox(height: 80,),
             Text("Login",
               style: TextStyle(
                   fontSize: 40,
@@ -31,12 +70,12 @@ class LoginPage extends StatelessWidget {
             Text("Securely login to your PiggyVest"),
 
             CustomTextField(
-              label: "Phone Number",
-              onchanged: (newText){},
+              label: "Email",
+              onChanged: (newText){},
             ),
             CustomTextField(
               label: "Password",
-              onchanged: (newText){},
+              onChanged: (newText){},
             ),
             SizedBox(height: 24,),
             ElevatedButton(
@@ -56,8 +95,8 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context){
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context){
                         return RegistrationPage();
                       }));
                 },

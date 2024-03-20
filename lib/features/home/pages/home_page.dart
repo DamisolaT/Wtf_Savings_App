@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wtf_savings_app/features/account/pages/account_view.dart';
@@ -10,6 +11,8 @@ import 'package:wtf_savings_app/features/savings/pages/savings_view.dart';
 import 'home_view.dart';
 
 class HomePage extends StatefulWidget{
+
+  static route()=> MaterialPageRoute(builder: (context)=>HomePage(),);
 
   @override
   State<HomePage> createState() => _HomePageState();

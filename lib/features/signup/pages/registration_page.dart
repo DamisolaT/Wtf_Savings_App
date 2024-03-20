@@ -1,13 +1,52 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wtf_savings_app/features/home/pages/home_page.dart';
 import 'package:wtf_savings_app/features/login/pages/login_page.dart';
+import 'package:wtf_savings_app/features/signup/bloc/signup_bloc.dart';
+import 'package:wtf_savings_app/features/signup/bloc/signup_state.dart';
 import 'package:wtf_savings_app/shared/widgets/custom_textfield.dart';
 
-class RegistrationPage extends StatelessWidget {
+class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
 
   @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+  String fullName = "";
+  String emailAddress = "";
+  String password = "";
+  @override
   Widget build(BuildContext context) {
+    SignupBloc bloc = context.watch<SignupBloc>();
+    SignupState state = bloc.state;
+
+    switch(state.signupStatus){
+
+      case SignupStatus.Initial:
+        break;
+
+      case SignupStatus.Processing:
+        break;
+      case SignupStatus.Successful:
+       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+         Navigator.pushReplacement(
+             context,
+            HomePage.route(),
+         );
+         bloc.reset();
+       });
+       break;
+      case SignupStatus.Error:
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content:Text("An error occured"))
+          );
+        });
+        break;
+    }
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -16,7 +55,9 @@ class RegistrationPage extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    _navigateToLoginPage(context);
+                  },
                   icon:Icon(Icons.cancel_outlined,
                   size: 45,)
               ),
@@ -30,25 +71,36 @@ class RegistrationPage extends StatelessWidget {
             Text("Create a free account and start a proper financial with PiggyVest."),
             CustomTextField(
               label: "Full Name",
-              onchanged: (newText){},
-            ),
-            CustomTextField(
-              label: "Email Address",
-              onchanged: (newText){
-
+              onChanged: (newText){
+                fullName = newText;
               },
             ),
             CustomTextField(
-              label: "Phone Number",
-              onchanged: (newText){},
+              label: "Email Address",
+              onChanged: (newText){
+                emailAddress = newText;
+              },
+              textInputType: TextInputType.emailAddress,
             ),
+
             CustomTextField(
               label: "Password",
-              onchanged: (newText){},
+              onChanged: (newText){
+                password = newText;
+              },
+              isAPassword: true,
             ),
             SizedBox(height: 24,),
             ElevatedButton(
-                onPressed: (){},
+                onPressed: state.signupStatus == SignupStatus.Processing ? null: (){
+                  if(_isUserInputValid()){
+                    bloc.registerUser(
+                        fullName: fullName,
+                        emailAddress: emailAddress,
+                        password: password);
+
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -60,14 +112,18 @@ class RegistrationPage extends StatelessWidget {
                   backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white
                 ),
-                child: Text("Create Account")
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if(state.signupStatus == SignupStatus.Processing)
+                      CircularProgressIndicator(),
+                    Text("Create Account"),
+                  ],
+                )
             ),
             TextButton(
                 onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context){
-                        return LoginPage();
-                      }));
+                  _navigateToLoginPage(context);
                 },
                 child: Text("Already have an account? Login"))
 
@@ -78,6 +134,33 @@ class RegistrationPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigateToLoginPage(BuildContext context) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context){
+          return LoginPage();
+        }),);
+  }
+  bool  _isUserInputValid(){
+    String errorMessage = "";
+    //Check to see if the input is valid
+    if(fullName.isEmpty){
+      errorMessage = "Full name  cannot be empty";
+    }else if(emailAddress.isEmpty){
+      errorMessage= "Email cannot be empty";
+    }else if(password.isEmpty || password.length < 8){
+      errorMessage = "Enter  a value password greater than 7 characters";
+    }
+    if(errorMessage.isNotEmpty){
+      //Show Snackback Alert
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content:Text(errorMessage))
+          );
+      return false;
+    }
+    return true;
   }
 }
 

@@ -4,10 +4,15 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.label,
-    required this.onchanged,
+    required this.onChanged,
+     this.textInputType,
+     this.isAPassword = false,
   });
   final String label;
-  final Function(String newText) onchanged;
+  final Function(String newText) onChanged;
+  final TextInputType? textInputType;
+  final bool isAPassword;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,7 +36,10 @@ class CustomTextField extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: label
             ),
-            onChanged: onchanged,
+            onChanged: onChanged,
+            keyboardType: textInputType,
+            obscureText: isAPassword,
+
           ),
         )
 
