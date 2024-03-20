@@ -44,8 +44,24 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content:Text("An error occured"))
           );
+          bloc.resetStatusToInitial();
         });
         break;
+      case LoginStatus.InvalidEmailAddress:
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content:Text("You entered an invalid email"))
+          );
+          bloc.resetStatusToInitial();
+        });
+        break;
+      case LoginStatus.InvalidPassword:
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content:Text("You entered an invalid password"))
+          );
+          bloc.resetStatusToInitial();
+        });
     }
     return Scaffold(
       body: SafeArea(
@@ -71,15 +87,21 @@ class _LoginPageState extends State<LoginPage> {
 
             CustomTextField(
               label: "Email",
-              onChanged: (newText){},
+              onChanged: (newText){
+                bloc.setEmailAddress(newText);
+              },
             ),
             CustomTextField(
               label: "Password",
-              onChanged: (newText){},
+              onChanged: (newText){
+                bloc.setPassword(newText);
+              },
             ),
             SizedBox(height: 24,),
             ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  bloc.onSubmit();
+                },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(

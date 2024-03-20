@@ -1,7 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 
-enum LoginStatus{Initial ,Processing, Successful, Error}
+enum LoginStatus{Initial ,Processing, Successful, Error, InvalidEmailAddress, InvalidPassword}
 
 class LoginState extends Equatable{
 
@@ -15,7 +15,7 @@ class LoginState extends Equatable{
 
       emailAddress: "",
       password: "",
-      loginStatus: LoginStatus.Initial
+
   );
 
 
